@@ -41,8 +41,9 @@ const Editor = () => {
 
     useEffect(() => {
         const quillServer = new Quill('#container', { theme: 'snow', modules: { toolbar: toolbarOptions }});
-        // quillServer.disable();
-        // quillServer.setText('Loading the document...')
+        quillServer.disable();
+        quillServer.setText('Loading the document...')
+
         setQuill(quillServer);
     }, []);
 
@@ -88,24 +89,26 @@ const Editor = () => {
         if (quill === null || socket === null) return;
 
         socket && socket.once('load-document', document => {
-            quill.setContents(document);
-            quill.enable();
+            quill && quill.setContents(document);
+            quill && quill.enable();
         })
 
         socket && socket.emit('get-document', id);
     },  [quill, socket, id]);
 
-    // useEffect(() => {
-    //     if (socket === null || quill === null) return;
+    useEffect(() => {
+        if (socket === null || quill === null) return;
 
-    //     const interval = setInterval(() => {
-    //         socket.emit('save-document', quill.getContents())
-    //     }, 2000);
+       const interval = setInterval(() => {
+        socket.emit('save-document', quill.getContents())
+        }, 2000);
 
-    //     return () => {
-    //         clearInterval(interval);
-    //     }
-    // }, [socket, quill]);
+         return () => {
+        clearInterval(interval);
+        }
+    }, [socket, quill]);
+
+
 
     return (
         <Component>

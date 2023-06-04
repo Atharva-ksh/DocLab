@@ -12,4 +12,3 @@ catch(error){
 }
 
 export default Connection;
-

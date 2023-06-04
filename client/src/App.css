@@ -1,17 +1,26 @@
 .container {
-  width: 60%;
-  background: #FFF;
+  width: 65%;
+  /* background: #FFF; */
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   margin: 10px auto 10px auto !important;
   min-height: 100vh;
   padding: 80px;
+  /* position: absolute; */
+}
+
+.css-1tao6fa {
+  /* background-color: white !important; */
+  background: rgba(11, 15, 14, 0.615) !important;
+  backdrop-filter: blur(60px);
+  /* fallback for old browsers */
+  -webkit-backdrop-filter: blur(60px);
 }
 
 .ql-toolbar.ql-snow {
   display: flex;
   justify-content: center;
   position: sticky;
-  top: 0;
+  top: 68px;
   z-index: 1;
   background: #F3F3F3;
   border: none !important;

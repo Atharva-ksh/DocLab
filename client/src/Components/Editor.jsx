@@ -7,7 +7,8 @@ import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 
 import { io } from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import HomeNav from './HomeNav';
 
 const Component = styled.div`
     background: #F5F5F5;
@@ -16,23 +17,23 @@ const Component = styled.div`
 const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
-  
+
     [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
     [{ 'direction': 'rtl' }],                         // text direction
-  
+
     [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  
+
     [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
     [{ 'font': [] }],
     [{ 'align': [] }],
-  
+
     ['clean']                                         // remove formatting button
 ];
-  
+
 
 const Editor = () => {
     const [socket, setSocket] = useState();
@@ -109,11 +110,13 @@ const Editor = () => {
     }, [socket, quill]);
 
 
-
     return (
-        <Component>
-            <Box className='container' id='container'></Box>
-        </Component>
+        <div className = ''>
+            <Component>
+                <HomeNav id = {id}/>
+                <Box className='container bg-red-700 text-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-30 border border-gray-100' id='container' />
+            </Component>
+        </div>
     )
 }
 

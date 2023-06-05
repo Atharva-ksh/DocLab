@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import { io } from 'socket.io-client';
 import { useNavigate, useParams } from 'react-router-dom';
 import HomeNav from './HomeNav';
+import { ContentContext } from '../Context/ContentProvider';
 
 const Component = styled.div`
     background: #F5F5F5;
@@ -39,6 +40,7 @@ const Editor = () => {
     const [socket, setSocket] = useState();
     const [quill, setQuill] = useState();
     const { id } = useParams();
+    const {content, setContent} = useContext(ContentContext)
 
     useEffect(() => {
         const quillServer = new Quill('#container', { theme: 'snow', modules: { toolbar: toolbarOptions }});
@@ -102,6 +104,7 @@ const Editor = () => {
 
        const interval = setInterval(() => {
         socket.emit('save-document', quill.getContents())
+        setContent(quill.getText())
         }, 2000);
 
          return () => {

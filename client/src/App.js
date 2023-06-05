@@ -12,9 +12,10 @@ import Editor from './Components/Editor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UserDocs from './UserDocs';
+import ContentProvider from './Context/ContentProvider';
 
 function App() {
-  const [user, setUser] = useState(null);
+	const [user, setUser] = useState(null);
 
 	const getUser = async () => {
 		try {
@@ -30,26 +31,28 @@ function App() {
 		getUser();
 	}, []);
 
-  return (
-    <Router>
-      <Routes>
-        <Route exact path='/' element={ user ? <Navigate replace to={`/docs/${uuid()}`} /> : <Navigate to="/login" />} />
-        <Route exact path='/user-docs' element={ <UserDocs />} />
-        <Route path='/docs/:id' element={<Editor />} />
-        <Route
-					exact
-					path="/login"
-					element={user ? <Navigate to="/" /> : <Login />}
-				/>
-				<Route
-					path="/signup"
-					element={user ? <Navigate to="/" /> : <Signup />}
-				/>
-        <Route path='/call' element={<Call />} />
-        <Route path="/room/:roomID" element={<Room />} />
-      </Routes>
-    </Router>
-  );
+	return (
+		<ContentProvider>
+			<Router>
+				<Routes>
+					<Route exact path='/' element={user ? <Navigate replace to={`/docs/${uuid()}`} /> : <Navigate to="/login" />} />
+					<Route exact path='/user-docs' element={<UserDocs />} />
+					<Route path='/docs/:id' element={<Editor />} />
+					<Route
+						exact
+						path="/login"
+						element={user ? <Navigate to="/" /> : <Login />}
+					/>
+					<Route
+						path="/signup"
+						element={user ? <Navigate to="/" /> : <Signup />}
+					/>
+					<Route path='/call' element={<Call />} />
+					<Route path="/room/:roomID" element={<Room />} />
+				</Routes>
+			</Router>
+		</ContentProvider>
+	);
 }
 
 export default App;

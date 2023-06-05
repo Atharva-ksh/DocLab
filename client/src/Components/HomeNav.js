@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png"
 import Modal from './Modal';
+import { ContentContext } from '../Context/ContentProvider';
 
 function HomeNav({ id }) {
     const navigate = useNavigate();
+    const {content, setContent} = useContext(ContentContext)
 
     const submitCode = (e) => {
         e.preventDefault();

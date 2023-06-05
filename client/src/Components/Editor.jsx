@@ -111,10 +111,10 @@ const Editor = () => {
 
 
     return (
-        <div className = ''>
+        <div className = 'backdrop-blur-lg'>
             <Component>
-                <HomeNav id = {id}/>
-                <Box className='container bg-red-700 text-white rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-30 border border-gray-100' id='container' />
+                <HomeNav className = 'backdrop-blur-lg !bg-[#E31213]  bg-clip-padding backdrop-filter bg-opacity-30' id = {id}/>
+                <Box className='backdrop-blur-lg bg-white container text-black rounded-md bg-clip-padding backdrop-filter bg-opacity-30 border border-gray-100 overflow-x-scroll hide-scroll-bar' id='container' />
             </Component>
         </div>
     )

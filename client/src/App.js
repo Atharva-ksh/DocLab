@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import Editor from './Components/Editor';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-
+import UserDocs from './UserDocs';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,6 +34,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path='/' element={ user ? <Navigate replace to={`/docs/${uuid()}`} /> : <Navigate to="/login" />} />
+        <Route exact path='/user-docs' element={ <UserDocs />} />
         <Route path='/docs/:id' element={<Editor />} />
         <Route
 					exact

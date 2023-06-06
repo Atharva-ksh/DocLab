@@ -41,11 +41,11 @@ function App() {
 					<Route
 						exact
 						path="/login"
-						element={user ? <Navigate to="/" /> : <Login />}
+						element={user ? <Navigate to="/user-docs" /> : <Login />}
 					/>
 					<Route
 						path="/signup"
-						element={user ? <Navigate to="/" /> : <Signup />}
+						element={user ? <Navigate to="/user-docs" /> : <Signup />}
 					/>
 					<Route path='/call' element={<Call />} />
 					<Route path="/room/:roomID" element={<Room />} />

@@ -1,20 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css';
 import { v4 as uuid } from 'uuid';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function UserDocs() {
+    const [docName, setDocName] = useState("");
     const seasons = ["CapStone", "Algorithms", "Internship", "MCS Offer", "API Docs"];
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => 
+    {
+        e.preventDefault();
+        navigate(`/docs/${uuid()}`)
+    }
 
     return (
-        <div className="bg-[url('https://luanedcosta.github.io/react-tailwindcss-glassmorphism/static/media/Background.d63a681d.jpg')] flex flex-col items-center justify-center h-[100vh]" >
-            <div className='flex flex-col m-auto p-auto max-w-[70%] max-h-[50%] bg-gray-300 bg-opacity-40 backdrop-blur-lg rounded-xl hover:!text-black'>
-                <a href={`/docs/${uuid()}`} className="relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md hover:!text-black">
-                    <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute hover:text-black"></span>
-                    <span className="relative px-6 py-3 transition-all ease-out bg-gray-900 rounded-md group-hover:bg-opacity-0 duration-[600ms] hover:!text-black">
-                        <span className="relative text-white">Create New Doc!</span>
-                    </span>
-                </a>
+        <div className="bg-[url(https://luanedcosta.github.io/react-tailwindcss-glassmorphism/static/media/Background.d63a681d.jpg)] flex flex-col items-center justify-center h-[100vh]">
+            <div className='flex flex-col m-auto p-auto max-w-[70%] max-h-[50%] '>
+                <form class="w-full max-w-lg">
+                    <div class="flex flex-wrap -mx-3 -mb-[80px] items-center align-middle text-center">
+                        <div class="w-full px-3">
+                            <label class="tracking-wide text-black font-bold text-[17px] mb-4">
+                                Need for a new Doc?
+                            </label>
+                            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-1 leading-tight border-none focus:border-none focus:outline-none" id="grid-password" placeholder="Enter your project name..." value={docName} onChange={(e) => setDocName(e.target.value)}/>
+                            <p class="text-gray-700 text-xs italic">Make it as crazy as you'd like</p>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <a onClick={handleSubmit} className="hover:cursor-pointer relative p-0.5 inline-flex items-center justify-center font-bold overflow-hidden group rounded-md hover:!text-black">
+                <span className="w-full h-full bg-gradient-to-br from-[#ff8a05] via-[#ff5478] to-[#ff00c6] group-hover:from-[#ff00c6] group-hover:via-[#ff5478] group-hover:to-[#ff8a05] absolute hover:text-black"></span>
+                <span className="relative px-6 py-3 transition-all ease-out bg-gray-900 rounded-md group-hover:bg-opacity-0 duration-[600ms] hover:!text-black">
+                    <span className="relative text-white">Create New Doc!</span>
+                </span>
+            </a>
             < div class="flex flex-col m-auto p-auto max-w-[70%] max-h-[40%] bg-gray-300 bg-opacity-40 backdrop-blur-lg rounded-xl" >
                 <div
                     class="flex overflow-x-scroll hide-scroll-bar py-10"

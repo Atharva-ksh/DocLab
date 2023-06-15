@@ -8,6 +8,7 @@ function Signup() {
 			"_self"
 		);
 	};
+	
 	return (
 		<div className={styles.container}>
 			<h1 className={styles.heading}>DocLab Sign up Form</h1>

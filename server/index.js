@@ -11,6 +11,8 @@ import passport from "passport";
 import authRoute from './routes/auth.js';
 import cookieSession from "cookie-session";
 import passportStrategy from './passport.js';
+import Route from './Routes.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
 	cors({
@@ -34,10 +38,10 @@ app.use(
 );
 
 app.use("/auth", authRoute);
+app.use('/', Route);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Listenting on port ${port}...`));
-
 
 const PORT = 9000;
 
@@ -60,6 +64,7 @@ io.on('connection', socket => {
         socket.on('send-changes', delta => {
             socket.broadcast.to(documentId).emit('receive-changes', delta);
         })
+
         socket.on('save-document', async data => {
             await updateDocument(documentId, data);
         })

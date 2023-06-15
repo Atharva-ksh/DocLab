@@ -13,6 +13,9 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UserDocs from './UserDocs';
 import ContentProvider from './Context/ContentProvider';
+import { addUser } from './Service/api';
+import { Context } from './context';
+import DocProvider from './Context/DocProvider';
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -22,35 +25,56 @@ function App() {
 			const url = `http://localhost:8080/auth/login/success`;
 			const { data } = await axios.get(url, { withCredentials: true });
 			setUser(data.user._json);
+			console.log(data.user._json)
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	const addUserFunction = async () => {
+		try {
+			if (user) {
+				console.log(user);
+				await addUser(user);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+
 	useEffect(() => {
 		getUser();
 	}, []);
 
+	useEffect(() => {
+		addUserFunction();
+	}, [user]);
+
 	return (
 		<ContentProvider>
-			<Router>
-				<Routes>
-					<Route exact path='/' element={user ? <Navigate replace to={`/docs/${uuid()}`} /> : <Navigate to="/login" />} />
-					<Route exact path='/user-docs' element={<UserDocs />} />
-					<Route path='/docs/:id' element={<Editor />} />
-					<Route
-						exact
-						path="/login"
-						element={user ? <Navigate to="/user-docs" /> : <Login />}
-					/>
-					<Route
-						path="/signup"
-						element={user ? <Navigate to="/user-docs" /> : <Signup />}
-					/>
-					<Route path='/call' element={<Call />} />
-					<Route path="/room/:roomID" element={<Room />} />
-				</Routes>
-			</Router>
+			<DocProvider>
+				<Context.Provider value={user}>
+					<Router>
+						<Routes>
+							<Route exact path='/' element={user ? <Navigate replace to={`/docs/${uuid()}`} /> : <Navigate to="/login" />} />
+							<Route exact path='/user-docs' element={user ? <UserDocs user={user} /> : <Navigate to="/login" />} />
+							<Route path='/docs/:id' element={user ? <Editor user={user} /> : <Navigate to="/login" />} />
+							<Route
+								exact
+								path="/login"
+								element={user ? <Navigate to="/user-docs" /> : <Login />}
+							/>
+							<Route
+								path="/signup"
+								element={user ? <Navigate to="/user-docs" /> : <Signup />}
+							/>
+							<Route path='/call' element={<Call />} />
+							<Route path="/room/:roomID" element={<Room />} />
+						</Routes>
+					</Router>
+				</Context.Provider>
+			</DocProvider>
 		</ContentProvider>
 	);
 }

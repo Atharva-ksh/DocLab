@@ -1,0 +1,5 @@
+git+https://github.com/PrithivirajDamodaran/Parrot_Paraphraser.git
+transformers
+cloudscraper
+Flask
+requests

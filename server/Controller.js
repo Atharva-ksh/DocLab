@@ -58,6 +58,6 @@ export const getUserDocs = async (request, response) => {
         response.status(200).json(users);
     }
     catch (error) {
-        response.status(500).json('Error while fetching/getting user docs: ', error.message);
+        response.status(500).json({ error: 'Error while fetching/getting user docs: ' + error.message });
     }
 }

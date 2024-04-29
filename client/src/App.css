@@ -70,3 +70,8 @@ button:hover .ql-fill,
   border: none !important;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
+
+.ql-picker-options {
+  background: black !important;  /* Black background for dropdown */
+  color: white !important;  /* White text for dropdown items */
+}

@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "gingerit"
+version = "0.9.0"
+description = """
+Correcting spelling and grammar mistakes based on the context of complete \
+entences. Wrapper around the gingersoftware.com API\
+"""
+authors = ["Tim Kleinschmdit <tim.kleinschmidt@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://github.com/Azd325/gingerit"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+]
+
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4"
+cloudscraper = "^1.2.66"
+
+[tool.poetry.group.test.dependencies]
+pytest = "*"
+
+[tool.poetry.group.develop.dependencies]
+black = "*"
+isort = "*"
+pyupgrade = "*"

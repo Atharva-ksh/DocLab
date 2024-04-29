@@ -11,7 +11,7 @@ function HomeNav({ id }) {
     const { user } = useContext(Context);
     // const {content, setContent} = useContext(ContentContext)
     const { docName, setDocName } = useContext(DocNameContext);
-    const {content, setContent, quill, setQuill} = useContext(ContentContext)
+    const { content, setContent, quill, setQuill } = useContext(ContentContext)
     const quillRef = useRef(null);
     const [isLoadingP, setIsLoadingP] = useState(false);
     const [isLoadingS, setIsLoadingS] = useState(false);
@@ -49,7 +49,7 @@ function HomeNav({ id }) {
         try {
             if (user) {
                 console.log(docName);
-                await addUserDoc({email: user.email, id: id, name: docName});
+                await addUserDoc({ email: user.email, id: id, name: docName });
                 setDocName("");
             }
         } catch (err) {
@@ -62,74 +62,75 @@ function HomeNav({ id }) {
     }, [id]);
 
     const handleParaphraseClick = () => {
-        
+
         const selectedText = content; // Get the selected text from the Quill editor
-      
+
         if (selectedText) {
             setIsLoadingP(true);
             const text = selectedText.trim();
             console.log('I am inside the paraphraser click');
-            fetch('http://ec2-18-117-86-235.us-east-2.compute.amazonaws.com:8080/paraphrase', { // Add your flask endpoint
-            method: 'POST',
-            body: new URLSearchParams({
-              text: text,
-            }),
-          })
-            .then((response) => response.text())
-            .then((result) => {
-              const paraphrasedText = result; // Assuming the API returns the paraphrased text
-              console.log(paraphrasedText);
-            //quill.setContent(paraphrasedText);
-            quill.deleteText(0, selectedText.length);
-            quill.setText(paraphrasedText);
-            setIsLoadingP(false);
-            const length = paraphrasedText.length;
-            quill.setSelection(length);
-            
-            console.log('I am out of para');
-    
+            fetch('http://127.0.0.1:5000/paraphrase', { // Add your flask endpoint
+                method: 'POST',
+                body: new URLSearchParams({
+                    text: text,
+                }),
             })
-            .catch((error) => {
-              console.error('Error:', error);
-              setIsLoadingS(false);
-            });
+                .then((response) => response.text())
+                .then((result) => {
+                    const paraphrasedText = result; // Assuming the API returns the paraphrased text
+                    console.log(paraphrasedText);
+                    //quill.setContent(paraphrasedText);
+                    quill.deleteText(0, selectedText.length);
+                    quill.setText(paraphrasedText);
+                    setIsLoadingP(false);
+                    const length = paraphrasedText.length;
+                    quill.setSelection(length);
+
+                    console.log('I am out of para');
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setIsLoadingP(false);
+                });
         }
-        
+
     };
-    
+
     const handleSummarizeClick = () => {
-        
+
         const selectedtext = content // Get the selected text
         if (selectedtext !== '') {
             setIsLoadingS(true);
             const text = selectedtext.trim();
             console.log('I am inside the summarizer click');
-          fetch('http://ec2-18-117-86-235.us-east-2.compute.amazonaws.com:8080/summarize', {
-            method: 'POST',
-            body: new URLSearchParams({
-              text: text,
-            }),
-          })
-            .then((response) => response.text())
-            .then((result) => {
-            const summary = result; // Assuming the API returns the summarized text
-            console.log(summary);
-            console.log('I am out of summarizer');
-            quill.deleteText(0, selectedtext.length);
-            quill.setText(summary);
-            setIsLoadingS(false);
-    
-            const length = summary.length;
-            quill.setSelection(length);
-    
-              //setSummary(summary); // Update the state with the summarized text
+            console.log(text)
+            fetch('http://127.0.0.1:5000/summarize', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    text: text,
+                }),
             })
-            .catch((error) => {
-              console.error('Error:', error);
-              setIsLoadingS(false);
-            });
+                .then((response) => response.text())
+                .then((result) => {
+                    const summary = result; // Assuming the API returns the summarized text
+                    console.log("Summary:", summary);
+                    console.log('I am out of summarizer');
+                    quill.deleteText(0, selectedtext.length);
+                    quill.setText(summary);
+                    setIsLoadingS(false);
+
+                    const length = summary.length;
+                    quill.setSelection(length);
+
+                    //setSummary(summary); // Update the state with the summarized text
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setIsLoadingS(false);
+                });
         }
-    }    
+    }
 
 
     return (
@@ -164,17 +165,17 @@ function HomeNav({ id }) {
                 </div>
                 <div className="bitems-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:border-gray-700">
-                         <li>
-                            <a  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                        <li>
+                            <a className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                 <button onClick={handleParaphraseClick} className="hover:italic bg-blue-500 border:none hover:bg-white text-white hover:text-red-700 font-bold py-2 px-4 rounded-full transition ease-in-out duration-300">
-                                {isLoadingP ? <LoadingSpinner /> : 'Paraphrase'}
+                                    {isLoadingP ? <LoadingSpinner /> : 'Paraphrase'}
                                 </button>
                             </a>
                         </li>
                         <li>
                             <a className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                                 <button onClick={handleSummarizeClick} className="hover:italic bg-blue-500 border:none hover:bg-white text-white hover:text-red-700 font-bold py-2 px-4 rounded-full transition ease-in-out duration-300">
-                                {isLoadingS ? <LoadingSpinner /> : 'Summarize'}
+                                    {isLoadingS ? <LoadingSpinner /> : 'Summarize'}
                                 </button>
                             </a>
                         </li>
@@ -185,7 +186,7 @@ function HomeNav({ id }) {
                                 </button>
                             </a>
                         </li>
-                   
+
                     </ul>
                 </div>
             </div>

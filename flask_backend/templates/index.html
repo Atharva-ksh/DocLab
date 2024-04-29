@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Text Editor</title>
+  </head>
+  <body>
+    <textarea id="textEditor" onkeyup="checkPeriod(event)"></textarea>
+    <button id = "parabutton">Paraphrase me!</button>
+    <button id = "summarizebutton">Summarize me! </button>
+    <div id="result"></div>
+
+    <div id="popup-container">
+      <h3>Correction Suggestions</h3>
+      <p id="popup-content"></p>
+      <button id="popup-button">Change it!</button>
+    </div>
+
+    <script>
+      
+
+      function checkPeriod(event) {
+        const key = event.key;
+        const keyCode = event.keyCode || event.which;
+        const textEditor = document.getElementById('textEditor');
+        const text = textEditor.value;
+        if (keyCode === 190 || key === '?' || key === '!') { // Check for period key
+          const sentence = text.trim();
+           if (sentence !== '') {
+            fetch('http://127.0.0.1:5000/check_spelling', {
+              method: 'POST',
+              body: new URLSearchParams({
+                text: sentence
+              }),
+            })
+              .then(response => response.text())   
+              .then(result => {
+                const correctedSentence = result;
+                showCorrectionPopup(correctedSentence);
+                // Replace the incorrect sentence with the corrected version
+                // const textEditor = document.getElementById('textEditor');
+                // const currentText = textEditor.value;
+                // const startIndex = currentText.lastIndexOf(sentence);
+                // const endIndex = startIndex + sentence.length;
+                // const newText = currentText.substring(0, startIndex) + correctedSentence + currentText.substring(endIndex);
+                // textEditor.value = newText;
+
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+          }
+          
+        } 
+      }
+
+      const parabutton = document.getElementById('parabutton')
+      parabutton.addEventListener('click', paraphrase);
+      
+      function paraphrase(){
+
+        const text = window.getSelection().toString();
+        // const textEditor = document.getElementById('textEditor');
+        // const text = textEditor.value;
+        // sentence should be just the selected text
+
+        const sentence = text.trim();
+        fetch('http://127.0.0.1:5000/paraphrase', {
+              method: 'POST',
+              body: new URLSearchParams({
+                text: sentence
+              }),
+            })
+        .then(response => response.text())  // Use response.text() 
+              .then(result => {
+                const paraphrased_text = result;
+                const textEditor = document.getElementById('textEditor');
+                // textEditor.value = paraphrased_text;
+                // Replace the incorrect sentence with the corrected version
+                const currentText = textEditor.value;
+                const startIndex = currentText.lastIndexOf(sentence);
+                const endIndex = startIndex + sentence.length;
+                const newText = currentText.substring(0, startIndex) + paraphrased_text + currentText.substring(endIndex);
+                textEditor.value = newText;
+              })
+      }
+
+      const summarizebutton = document.getElementById('summarizebutton')
+      summarizebutton.addEventListener('click', summarize);
+      function summarize(){
+        // const textEditor = document.getElementById('textEditor');
+        // const text = textEditor.value;
+        const text = window.getSelection().toString();
+        console.log(text);
+        const sentence = text.trim();
+        fetch('http://127.0.0.1:5000/summarize', {
+              method: 'POST',
+              body: new URLSearchParams({
+                text: sentence
+              }),
+            })
+        .then(response => response.text())  // Use response.text() 
+              .then(result => {
+                const summarized_text = result;
+                const textEditor = document.getElementById('textEditor');
+                // textEditor.value = summarized_text;
+                const currentText = textEditor.value;
+                const startIndex = currentText.lastIndexOf(sentence);
+                const endIndex = startIndex + sentence.length;
+                const newText = currentText.substring(0, startIndex) + summarized_text + currentText.substring(endIndex);
+                textEditor.value = newText;
+              })
+      }
+
+      // Get references to pop-up elements
+      const popupContainer = document.getElementById('popup-container');
+      const popupContent = document.getElementById('popup-content');
+      const popupButton = document.getElementById('popup-button');
+      popupButton.addEventListener('click', handlePopupButton);
+
+      // Function to show the pop-up with corrected text
+      function showCorrectionPopup(correctedText) {
+        // Set the corrected text in the pop-up content
+        // console.log(correctedText);
+        popupContent.textContent = correctedText;
+        // Show the pop-up
+        popupContainer.style.display = 'block';
+      }
+
+      function handlePopupButton() {
+        console.log('Button clicked');
+        // Perform the correction action here
+        // For example, update the text editor with the corrected text
+        const correctedSentence = popupContent.textContent;
+        const newText = correctedSentence;
+        textEditor.value = newText;
+        // Hide the pop-up
+        popupContainer.style.display = 'none';
+      }
+
+    </script>
+  </body>
+</html>

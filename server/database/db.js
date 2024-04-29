@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
-const Connection = async (username = 'user',password = 'doclab') => {
-const URL = 'mongodb+srv://user:doclab@doclabai.rrnvbiv.mongodb.net/?retryWrites=true&w=majority'
+const Connection = async () => {
+const URL = 'mongodb+srv://admin:admin@cluster1.epipje0.mongodb.net/doclab?retryWrites=true&w=majority&appName=Cluster1'
 try{
-    await mongoose.connect(URL, {useUnifiedTopology: true, useNewUrlParser: true });
+    await mongoose.connect(URL);
     console.log('database connected');
 }
 catch(error){

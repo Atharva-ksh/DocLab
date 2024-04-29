@@ -5,6 +5,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Context } from './context';
 import { getUserDoc } from './Service/api';
 import { DocNameContext } from './Context/DocProvider';
+import backgroundImage from './assets/bg_4.jpg';
+
 
 function UserDocs(userDetails) {
     const {docName, setDocName} = useContext(DocNameContext);
@@ -36,7 +38,7 @@ function UserDocs(userDetails) {
     }
 
     return (
-        <div className="bg-cover bg-no-repeat bg-[url(C:\Users\HP\Desktop\Projects\Clone_DocLab\DocLab\client\src\assets\bg_4.jpg)] flex flex-col items-center justify-center h-[100vh]">
+        <div style={{ backgroundImage: `url(${backgroundImage})` }} className="bg-cover bg-no-repeat flex flex-col items-center justify-center h-[100vh]">
             <div className='flex flex-col m-auto p-auto max-w-[70%] max-h-[50%] '>
                 <form className="w-full max-w-lg">
                     <div className="flex flex-wrap -mx-3 -mb-[80px] items-center align-middle text-center">
